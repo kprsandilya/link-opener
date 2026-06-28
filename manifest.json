@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Link Opener",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Save and reopen browser sessions. Import URL lists to open as windows, or export your current Firefox windows into shareable URL lists.",
   "author": "Link Opener",
 
