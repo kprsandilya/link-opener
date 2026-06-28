@@ -1,0 +1,23 @@
+# web-ext build / signing artifacts
+web-ext-artifacts/
+*.xpi
+*.zip
+
+# Node / tooling
+node_modules/
+npm-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Environment / secrets (never commit AMO API keys)
+.env
+.env.*
+*.pem
+
+# Editor / OS cruft
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini

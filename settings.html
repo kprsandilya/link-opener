@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Link Opener — Settings</title>
+    <link rel="stylesheet" href="settings.css" />
+  </head>
+  <body class="is-settings">
+    <!-- Ambient gradient background blobs -->
+    <div class="aurora" aria-hidden="true">
+      <span class="blob blob-a"></span>
+      <span class="blob blob-b"></span>
+      <span class="blob blob-c"></span>
+    </div>
+
+    <div class="settings-shell">
+      <!-- ─────────────────────────────── Sidebar ─────────────────────────── -->
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+              <path
+                d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 1 0-7.07-7.07L11 5"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M14 11a5 5 0 0 0-7.07 0l-2.83 2.83a5 5 0 1 0 7.07 7.07L13 19"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="brand-text">
+            <h1>Link Opener</h1>
+            <p>Settings &amp; preferences</p>
+          </div>
+        </div>
+
+        <div class="search">
+          <svg viewBox="0 0 24 24" class="icon search-icon" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" />
+            <path d="m21 21-4.3-4.3" />
+          </svg>
+          <input
+            type="search"
+            id="search"
+            placeholder="Search settings…"
+            spellcheck="false"
+            autocomplete="off"
+            aria-label="Search settings"
+          />
+          <kbd class="search-kbd">/</kbd>
+        </div>
+
+        <nav class="nav" id="nav" aria-label="Settings sections">
+          <a class="nav-item is-active" href="#opening" data-section="opening">
+            <svg viewBox="0 0 24 24" class="icon"><path d="M9 6 15 12 9 18" /></svg>
+            <span>Opening Behavior</span>
+          </a>
+          <a class="nav-item" href="#saving" data-section="saving">
+            <svg viewBox="0 0 24 24" class="icon"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" /><path d="M17 21v-8H7v8M7 3v5h8" /></svg>
+            <span>Saving</span>
+          </a>
+          <a class="nav-item" href="#autosave" data-section="autosave">
+            <svg viewBox="0 0 24 24" class="icon"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
+            <span>Automatic Saving</span>
+          </a>
+          <a class="nav-item" href="#backup" data-section="backup">
+            <svg viewBox="0 0 24 24" class="icon"><path d="M12 3v12m0-12 4 4m-4-4-4 4M5 21h14" /></svg>
+            <span>Export &amp; Backup</span>
+          </a>
+          <a class="nav-item" href="#interface" data-section="interface">
+            <svg viewBox="0 0 24 24" class="icon"><rect x="3" y="4" width="18" height="14" rx="2" /><path d="M8 20h8" /></svg>
+            <span>Interface</span>
+          </a>
+          <a class="nav-item" href="#power" data-section="power">
+            <svg viewBox="0 0 24 24" class="icon"><path d="m13 2-9 12h7l-1 8 9-12h-7l1-8z" /></svg>
+            <span>Power User</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="btn btn-ghost btn-block" id="btn-back" title="Close this settings tab">
+            <svg viewBox="0 0 24 24" class="icon"><path d="M19 12H5m0 0 6-6m-6 6 6 6" /></svg>
+            Close
+          </button>
+          <span class="version-tag" id="version-tag">v1.0.0</span>
+        </div>
+      </aside>
+
+      <!-- ───────────────────────────── Content pane ──────────────────────── -->
+      <main class="content" id="content">
+        <header class="content-head">
+          <div>
+            <h2 id="content-title">Settings</h2>
+            <p id="content-sub">Tune how Link Opener saves and opens your sessions.</p>
+          </div>
+          <div class="content-head-actions">
+            <span class="save-state" id="save-state" data-state="saved">All changes saved</span>
+          </div>
+        </header>
+
+        <div class="scroll" id="scroll">
+          <p class="no-results" id="no-results" hidden>No settings match your search.</p>
+
+          <!-- ════════════════════════ Opening Behavior ════════════════════ -->
+          <section class="section" id="opening" data-section="opening">
+            <div class="section-head">
+              <h3>Opening Behavior</h3>
+              <p>Control how saved sessions are turned back into windows and tabs.</p>
+            </div>
+
+            <div class="rows">
+              <div class="row" data-keywords="open mode new window current merge">
+                <div class="row-label">
+                  <span class="row-title">How sessions open</span>
+                  <span class="row-desc">Choose whether each saved group becomes a new window, fills the current window, or merges everything together.</span>
+                </div>
+                <div class="row-control">
+                  <select data-setting="opening.mode">
+                    <option value="new-window">New window per group</option>
+                    <option value="current-window">Tabs in current window</option>
+                    <option value="merge">Merge all into current window</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row" data-keywords="focus first window">
+                <div class="row-label">
+                  <span class="row-title">Focus the first window</span>
+                  <span class="row-desc">Bring the first opened window to the front after a session opens.</span>
+                </div>
+                <div class="row-control">
+                  <label class="switch">
+                    <input type="checkbox" data-setting="opening.focusFirstWindow" />
+                    <span class="track"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="row" data-keywords="confirm large tabs warning">
+                <div class="row-label">
+                  <span class="row-title">Confirm large openings</span>
+                  <span class="row-desc">Ask before opening a large number of tabs at once.</span>
+                </div>
+                <div class="row-control">
+                  <label class="switch">
+                    <input type="checkbox" data-setting="opening.confirmLargeOpen" />
+                    <span class="track"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="row" data-keywords="threshold tab count limit confirm">
+                <div class="row-label">
+                  <span class="row-title">Confirmation threshold</span>
+                  <span class="row-desc">Show the confirmation when opening more than this many tabs.</span>
+                </div>
+                <div class="row-control">
+                  <div class="number-field">
+                    <input type="number" min="1" max="999" step="1" data-setting="opening.largeOpenThreshold" />
+                    <span class="unit">tabs</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ════════════════════════════ Saving ══════════════════════════ -->
+          <section class="section" id="saving" data-section="saving">
+            <div class="section-head">
+              <h3>Saving</h3>
+              <p>Decide what gets captured when you export your current windows.</p>
+            </div>
+
+            <div class="rows">
+              <div class="row" data-keywords="private incognito windows">
+                <div class="row-label">
+                  <span class="row-title">Include private windows</span>
+                  <span class="row-desc">Capture tabs from private/incognito windows when exporting (requires private browsing access).</span>
+                </div>
+                <div class="row-control">
+                  <label class="switch">
+                    <input type="checkbox" data-setting="saving.includePrivateWindows" />
+                    <span class="track"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="row" data-keywords="pinned tabs">
+                <div class="row-label">
+                  <span class="row-title">Include pinned tabs</span>
+                  <span class="row-desc">Include pinned tabs when exporting your open windows.</span>
+                </div>
+                <div class="row-control">
+                  <label class="switch">
+                    <input type="checkbox" data-setting="saving.includePinnedTabs" />
+                    <span class="track"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="row" data-keywords="preserve tab groups">
+                <div class="row-label">
+                  <span class="row-title">Preserve tab groups</span>
+                  <span class="row-desc">Keep tab grouping intact where the browser supports it.</span>
+                </div>
+                <div class="row-control">
+                  <label class="switch">
+                    <input type="checkbox" data-setting="saving.preserveTabGroups" />
+                    <span class="track"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="row row-stacked" data-keywords="ignore url patterns wildcard exclude block">
+                <div class="row-label">
+                  <span class="row-title">Ignore URL patterns</span>
+                  <span class="row-desc">One pattern per line. Supports <code>*</code> and <code>?</code> wildcards (e.g. <code>*://*.example.com/*</code>). Lines starting with <code>#</code> are comments.</span>
+                </div>
+                <div class="row-control row-control-full">
+                  <textarea
+                    class="textarea"
+                    rows="4"
+                    spellcheck="false"
+                    placeholder="*://mail.google.com/*&#10;*://*.internal.local/*"
+                    data-setting="saving.ignorePatterns"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ═══════════════════════ Automatic Saving ═════════════════════ -->
+          <section class="section" id="autosave" data-section="autosave">
+            <div class="section-head">
+              <h3>Automatic Saving</h3>
+              <p>Let Link Opener snapshot your sessions in the background.</p>
+            </div>
+
+            <div class="rows">
+              <div class="row" data-keywords="auto save enable periodic">
+                <div class="row-label">
+                  <span class="row-title">Enable automatic saving</span>
+                  <span class="row-desc">Periodically snapshot your open windows on a schedule.</span>
+                </div>
+                <div class="row-control">
+                  <label class="switch">
+                    <input type="checkbox" data-setting="autoSave.enabled" />
+                    <span class="track"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="row" data-keywords="interval minutes frequency">
+                <div class="row-label">
+                  <span class="row-title">Save interval</span>
+                  <span class="row-desc">How often to take an automatic snapshot.</span>
+                </div>
+                <div class="row-control">
+                  <div class="number-field">
+                    <input type="number" min="1" max="1440" step="1" data-setting="autoSave.intervalMinutes" />
+                    <span class="unit">min</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" data-keywords="window close auto save">
+                <div class="row-label">
+                  <span class="row-title">Save when a window closes</span>
+                  <span class="row-desc">Snapshot a window's tabs right before it closes.</span>
+                </div>
+                <div class="row-control">
+                  <label class="switch">
+                    <input type="checkbox" data-setting="autoSave.onWindowClose" />
+                    <span class="track"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="row" data-keywords="firefox exit quit auto save">
+                <div class="row-label">
+                  <span class="row-title">Save when Firefox exits</span>
+                  <span class="row-desc">Capture a final snapshot when the browser is shutting down.</span>
+                </div>
+                <div class="row-control">
+                  <label class="switch">
+                    <input type="checkbox" data-setting="autoSave.onExit" />
+                    <span class="track"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="row" data-keywords="retention limit keep history count">
+                <div class="row-label">
+                  <span class="row-title">Retention limit</span>
+                  <span class="row-desc">Maximum number of automatic snapshots to keep before pruning the oldest.</span>
+                </div>
+                <div class="row-control">
+                  <div class="number-field">
+                    <input type="number" min="1" max="200" step="1" data-setting="autoSave.retentionLimit" />
+                    <span class="unit">saves</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" data-keywords="minimum tab count threshold auto save">
+                <div class="row-label">
+                  <span class="row-title">Minimum tabs to auto-save</span>
+                  <span class="row-desc">Skip snapshots for windows with fewer than this many tabs.</span>
+                </div>
+                <div class="row-control">
+                  <div class="number-field">
+                    <input type="number" min="1" max="100" step="1" data-setting="autoSave.minTabCount" />
+                    <span class="unit">tabs</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ═══════════════════════ Export & Backup ══════════════════════ -->
+          <section class="section" id="backup" data-section="backup">
+            <div class="section-head">
+              <h3>Export &amp; Backup</h3>
+              <p>Move your sessions and preferences in and out of the extension.</p>
+            </div>
+
+            <div class="rows">
+              <div class="row" data-keywords="auto backup local file">
+                <div class="row-label">
+                  <span class="row-title">Automatic local backups</span>
+                  <span class="row-desc">Periodically write a backup file to your downloads folder. Files are saved <strong>automatically, without a save dialog</strong>, on the same schedule as the auto-save interval.</span>
+                </div>
+                <div class="row-control">
+                  <label class="switch">
+                    <input type="checkbox" data-setting="backup.autoBackup" />
+                    <span class="track"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="row" data-keywords="backup location folder filename prefix">
+                <div class="row-label">
+                  <span class="row-title">Backup filename prefix</span>
+                  <span class="row-desc">Backups download to your browser's downloads folder using this prefix.</span>
+                </div>
+                <div class="row-control">
+                  <input type="text" class="text-field" spellcheck="false" data-setting="backup.location" />
+                </div>
+              </div>
+
+              <div class="row" data-keywords="backup format json txt">
+                <div class="row-label">
+                  <span class="row-title">Backup format</span>
+                  <span class="row-desc">File format used for automatic backups.</span>
+                </div>
+                <div class="row-control">
+                  <select data-setting="backup.format">
+                    <option value="json">JSON</option>
+                    <option value="txt">Plain text (.txt)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row row-stacked" data-keywords="export import sessions json data">
+                <div class="row-label">
+                  <span class="row-title">Sessions</span>
+                  <span class="row-desc">Export your saved windows as JSON, or import a previously exported session file.</span>
+                </div>
+                <div class="row-control row-control-full">
+                  <div class="btn-row">
+                    <button class="btn btn-ghost" id="btn-export-sessions">
+                      <svg viewBox="0 0 24 24" class="icon"><path d="M12 3v12m0-12 4 4m-4-4-4 4M5 21h14" /></svg>
+                      Export sessions
+                    </button>
+                    <button class="btn btn-ghost" id="btn-import-sessions">
+                      <svg viewBox="0 0 24 24" class="icon"><path d="M12 21V9m0 12-4-4m4 4 4-4M5 3h14" /></svg>
+                      Import sessions
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row row-stacked" data-keywords="export import settings preferences json restore">
+                <div class="row-label">
+                  <span class="row-title">Settings</span>
+                  <span class="row-desc">Back up or restore just your preferences, independent of session data.</span>
+                </div>
+                <div class="row-control row-control-full">
+                  <div class="btn-row">
+                    <button class="btn btn-ghost" id="btn-export-settings">
+                      <svg viewBox="0 0 24 24" class="icon"><path d="M12 3v12m0-12 4 4m-4-4-4 4M5 21h14" /></svg>
+                      Export settings
+                    </button>
+                    <button class="btn btn-ghost" id="btn-import-settings">
+                      <svg viewBox="0 0 24 24" class="icon"><path d="M12 21V9m0 12-4-4m4 4 4-4M5 3h14" /></svg>
+                      Restore settings
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ═══════════════════════════ Interface ════════════════════════ -->
+          <section class="section" id="interface" data-section="interface">
+            <div class="section-head">
+              <h3>Interface</h3>
+              <p>Personalize the look and feel of the popup and this page.</p>
+            </div>
+
+            <div class="rows">
+              <div class="row" data-keywords="theme light dark system appearance">
+                <div class="row-label">
+                  <span class="row-title">Theme</span>
+                  <span class="row-desc">Match your system, or force light or dark.</span>
+                </div>
+                <div class="row-control">
+                  <div class="segmented" data-setting="interface.theme">
+                    <button type="button" data-value="light">Light</button>
+                    <button type="button" data-value="dark">Dark</button>
+                    <button type="button" data-value="system">System</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" data-keywords="popup size width small medium large">
+                <div class="row-label">
+                  <span class="row-title">Popup size</span>
+                  <span class="row-desc">Adjust the width of the toolbar popup.</span>
+                </div>
+                <div class="row-control">
+                  <div class="segmented" data-setting="interface.popupSize">
+                    <button type="button" data-value="small">Small</button>
+                    <button type="button" data-value="medium">Medium</button>
+                    <button type="button" data-value="large">Large</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" data-keywords="layout density compact expanded spacing">
+                <div class="row-label">
+                  <span class="row-title">Layout density</span>
+                  <span class="row-desc">Compact tightens spacing; expanded gives controls more room.</span>
+                </div>
+                <div class="row-control">
+                  <div class="segmented" data-setting="interface.density">
+                    <button type="button" data-value="compact">Compact</button>
+                    <button type="button" data-value="expanded">Expanded</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" data-keywords="date format iso us eu long">
+                <div class="row-label">
+                  <span class="row-title">Date format</span>
+                  <span class="row-desc">How dates appear in exports and timestamps.</span>
+                </div>
+                <div class="row-control">
+                  <select data-setting="interface.dateFormat">
+                    <option value="iso">ISO (2026-06-27)</option>
+                    <option value="us">US (06/27/2026)</option>
+                    <option value="eu">EU (27/06/2026)</option>
+                    <option value="long">Long (June 27, 2026)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row" data-keywords="time format 12 24 hour clock">
+                <div class="row-label">
+                  <span class="row-title">Time format</span>
+                  <span class="row-desc">Use a 12- or 24-hour clock.</span>
+                </div>
+                <div class="row-control">
+                  <div class="segmented" data-setting="interface.timeFormat">
+                    <button type="button" data-value="12h">12-hour</button>
+                    <button type="button" data-value="24h">24-hour</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" data-keywords="animations motion smooth transitions">
+                <div class="row-label">
+                  <span class="row-title">Smooth animations</span>
+                  <span class="row-desc">Enable transitions and motion. Disable for a snappier, calmer UI.</span>
+                </div>
+                <div class="row-control">
+                  <label class="switch">
+                    <input type="checkbox" data-setting="interface.smoothAnimations" />
+                    <span class="track"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="row row-stacked" data-keywords="button visibility toolbar show hide">
+                <div class="row-label">
+                  <span class="row-title">Toolbar buttons</span>
+                  <span class="row-desc">Choose which buttons appear in the popup toolbar.</span>
+                </div>
+                <div class="row-control row-control-full">
+                  <div class="check-grid">
+                    <label class="check"><input type="checkbox" data-setting="interface.buttons.addWindow" /><span>Add Window</span></label>
+                    <label class="check"><input type="checkbox" data-setting="interface.buttons.exportCurrent" /><span>Export Current Windows</span></label>
+                    <label class="check"><input type="checkbox" data-setting="interface.buttons.importTxt" /><span>Import .txt</span></label>
+                    <label class="check"><input type="checkbox" data-setting="interface.buttons.settings" /><span>Settings</span></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ═════════════════════════ Power User ═════════════════════════ -->
+          <section class="section" id="power" data-section="power">
+            <div class="section-head">
+              <h3>Power User</h3>
+              <p>Keyboard shortcuts and destructive actions.</p>
+            </div>
+
+            <div class="rows">
+              <div class="row" data-keywords="shortcut open links keyboard">
+                <div class="row-label">
+                  <span class="row-title">Open links</span>
+                  <span class="row-desc">Open the current session.</span>
+                </div>
+                <div class="row-control">
+                  <button type="button" class="shortcut" data-setting="shortcuts.openLinks">Ctrl+Enter</button>
+                </div>
+              </div>
+
+              <div class="row" data-keywords="shortcut add window keyboard">
+                <div class="row-label">
+                  <span class="row-title">Add window</span>
+                  <span class="row-desc">Create a new window group.</span>
+                </div>
+                <div class="row-control">
+                  <button type="button" class="shortcut" data-setting="shortcuts.addWindow">Ctrl+Shift+N</button>
+                </div>
+              </div>
+
+              <div class="row" data-keywords="shortcut export current windows keyboard">
+                <div class="row-label">
+                  <span class="row-title">Export current windows</span>
+                  <span class="row-desc">Capture your open Firefox windows.</span>
+                </div>
+                <div class="row-control">
+                  <button type="button" class="shortcut" data-setting="shortcuts.exportCurrent">Ctrl+E</button>
+                </div>
+              </div>
+
+              <div class="row" data-keywords="shortcut search focus keyboard">
+                <div class="row-label">
+                  <span class="row-title">Focus search</span>
+                  <span class="row-desc">Jump to the settings search box.</span>
+                </div>
+                <div class="row-control">
+                  <button type="button" class="shortcut" data-setting="shortcuts.focusSearch">Ctrl+K</button>
+                </div>
+              </div>
+
+              <div class="row row-danger row-stacked" data-keywords="reset defaults restore factory danger">
+                <div class="row-label">
+                  <span class="row-title">Reset all settings</span>
+                  <span class="row-desc">Restore every preference on this page to its default value. Your saved sessions are not affected.</span>
+                </div>
+                <div class="row-control row-control-full">
+                  <button class="btn btn-danger" id="btn-reset-all">
+                    <svg viewBox="0 0 24 24" class="icon"><path d="M3 12a9 9 0 1 0 3-6.7L3 8" /><path d="M3 3v5h5" /></svg>
+                    Reset to defaults
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ───────────────────────── Sticky action bar ──────────────────── -->
+        <footer class="action-bar">
+          <div class="action-status" id="action-status">All changes saved automatically</div>
+          <div class="action-buttons">
+            <button class="btn btn-ghost" id="btn-reset">Discard changes</button>
+            <button class="btn btn-primary" id="btn-save" disabled>
+              <svg viewBox="0 0 24 24" class="icon"><path d="M20 6 9 17l-5-5" /></svg>
+              Save changes
+            </button>
+          </div>
+        </footer>
+      </main>
+    </div>
+
+    <!-- ─────────────────────────── Toast region ──────────────────────── -->
+    <div class="toast-region" id="toasts" aria-live="polite"></div>
+
+    <!-- ─────────────────────────── Modal dialog ──────────────────────── -->
+    <div class="modal-overlay" id="modal" hidden>
+      <div class="modal card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <h2 id="modal-title" class="modal-title">Confirm</h2>
+        <p id="modal-body" class="modal-body"></p>
+        <div class="modal-actions">
+          <button class="btn btn-ghost" id="modal-cancel">Cancel</button>
+          <button class="btn btn-primary" id="modal-confirm">Confirm</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hidden file input used for JSON imports -->
+    <input type="file" id="file-input" accept=".json,application/json" hidden />
+
+    <script type="module" src="settings.js"></script>
+  </body>
+</html>

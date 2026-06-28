@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Link Opener</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body class="is-popup">
+    <!-- Ambient gradient background blobs -->
+    <div class="aurora" aria-hidden="true">
+      <span class="blob blob-a"></span>
+      <span class="blob blob-b"></span>
+      <span class="blob blob-c"></span>
+    </div>
+
+    <div class="app">
+      <!-- ───────────────────────────── Header ───────────────────────────── -->
+      <header class="header">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+              <path
+                d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 1 0-7.07-7.07L11 5"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M14 11a5 5 0 0 0-7.07 0l-2.83 2.83a5 5 0 1 0 7.07 7.07L13 19"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="brand-text">
+            <h1>Link Opener</h1>
+            <p>Save &amp; reopen your browser sessions</p>
+          </div>
+        </div>
+
+        <div class="stats" aria-live="polite">
+          <div class="stat">
+            <span class="stat-value" id="stat-windows">0</span>
+            <span class="stat-label">Windows</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-value" id="stat-links">0</span>
+            <span class="stat-label">Links</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- ───────────────────────────── Toolbar ──────────────────────────── -->
+      <div class="toolbar">
+        <button class="btn btn-ghost" id="btn-add" title="Add a new window group">
+          <svg viewBox="0 0 24 24" class="icon"><path d="M12 5v14M5 12h14" /></svg>
+          Add Window
+        </button>
+        <button class="btn btn-ghost" id="btn-export" title="Export your currently open Firefox windows">
+          <svg viewBox="0 0 24 24" class="icon"><path d="M12 3v12m0-12 4 4m-4-4-4 4M5 21h14" /></svg>
+          Export Current Windows
+        </button>
+        <button class="btn btn-ghost" id="btn-import-file" title="Import URL lists from a .txt file">
+          <svg viewBox="0 0 24 24" class="icon"><path d="M12 21V9m0 12-4-4m4 4 4-4M5 3h14" /></svg>
+          Import .txt
+        </button>
+
+        <div class="toolbar-spacer"></div>
+
+        <button class="btn btn-ghost btn-icon" id="btn-settings" title="Open full Settings in a new tab">
+          <svg viewBox="0 0 24 24" class="icon"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
+        </button>
+
+        <div class="menu" id="more-menu">
+          <button class="btn btn-ghost btn-icon" id="btn-more" title="More actions" aria-haspopup="true" aria-expanded="false">
+            <svg viewBox="0 0 24 24" class="icon"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
+          </button>
+          <div class="menu-panel" id="more-panel" role="menu" hidden>
+            <button class="menu-item" id="btn-copy-all" role="menuitem">Copy All Windows</button>
+            <button class="menu-item" id="btn-export-json" role="menuitem">Export Session as JSON</button>
+            <button class="menu-item" id="btn-import-json" role="menuitem">Import Session from JSON</button>
+            <div class="menu-sep"></div>
+            <button class="menu-item menu-item-danger" id="btn-clear-all" role="menuitem">Clear All</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─────────────────────────── Window list ────────────────────────── -->
+      <main class="windows" id="windows" aria-label="Window groups"></main>
+
+      <!-- ───────────────────────────── Footer ───────────────────────────── -->
+      <footer class="footer">
+        <div class="hint">
+          <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd> to open
+        </div>
+        <button class="btn btn-primary" id="btn-open">
+          <svg viewBox="0 0 24 24" class="icon"><path d="M5 12h14m0 0-6-6m6 6-6 6" /></svg>
+          Open Links
+        </button>
+      </footer>
+    </div>
+
+    <!-- ─────────────────────── Window group template ──────────────────── -->
+    <template id="window-template">
+      <section class="card window" data-id="">
+        <div class="window-head">
+          <button class="collapse-toggle" title="Collapse / expand">
+            <svg viewBox="0 0 24 24" class="chevron"><path d="m6 9 6 6 6-6" /></svg>
+          </button>
+          <input class="window-name" type="text" spellcheck="false" />
+          <span class="window-count">0 links</span>
+          <div class="window-actions">
+            <button class="icon-btn js-copy" title="Copy URLs">
+              <svg viewBox="0 0 24 24" class="icon"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+            </button>
+            <button class="icon-btn js-menu-btn" title="More">
+              <svg viewBox="0 0 24 24" class="icon"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
+            </button>
+            <div class="card-menu" hidden>
+              <button class="menu-item js-copy-md">Copy as Markdown</button>
+              <button class="menu-item js-download">Download as .txt</button>
+              <button class="menu-item js-duplicate">Duplicate Window</button>
+              <div class="menu-sep"></div>
+              <button class="menu-item menu-item-danger js-delete">Delete Window</button>
+            </div>
+          </div>
+        </div>
+        <div class="window-body">
+          <textarea
+            class="url-input"
+            spellcheck="false"
+            placeholder="https://example.com&#10;github.com&#10;https://news.ycombinator.com"
+          ></textarea>
+          <div class="window-errors" hidden></div>
+        </div>
+      </section>
+    </template>
+
+    <!-- ─────────────────────────── Toast region ──────────────────────── -->
+    <div class="toast-region" id="toasts" aria-live="polite"></div>
+
+    <!-- ─────────────────────────── Modal dialog ──────────────────────── -->
+    <div class="modal-overlay" id="modal" hidden>
+      <div class="modal card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <h2 id="modal-title" class="modal-title">Confirm</h2>
+        <p id="modal-body" class="modal-body"></p>
+        <div class="modal-actions">
+          <button class="btn btn-ghost" id="modal-cancel">Cancel</button>
+          <button class="btn btn-primary" id="modal-confirm">Confirm</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hidden file input used for .txt and .json imports -->
+    <input type="file" id="file-input" accept=".txt,.json,text/plain,application/json" hidden />
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>
